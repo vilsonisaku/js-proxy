@@ -1,23 +1,29 @@
 var data = ['a','b','c'];
 
 var pData = new Proxy(data,{
-      set: function(target, i,name) {
-        update(i,name);
-        return target[i]=name;
-      }
+      	set: function(target, i,name) {
+        	update(i,name);
+        	return target[i]=name;
+      	},
+  	deleteProperty(target, prop) {
+		if (prop in target) {
+		  	delete target[prop];
+		  	console.log(`property removed: ${prop}`);
+		}
+      	}
 })
 
 function update(i,val){
 	let d = document;
 	let body = d.getElementsByTagName('body')[0];
-    let div = ( () => { 
-        for(let i in body.children) { 
-          	if(body.children[i].className == "top-content") return body.children[i]; 
-        } 
-        let top = d.createElement('div'); 
-        top.className="top-content"; 
+    	let div = ( () => { 
+		for(let i in body.children) { 
+			if(body.children[i].className == "top-content") return body.children[i]; 
+		} 
+		let top = d.createElement('div'); 
+		top.className="top-content"; 
 		body.insertBefore(top, body.firstChild);
-        return top; 
+		return top; 
 	}) ();
 
 	var is=false;
