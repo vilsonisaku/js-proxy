@@ -8,7 +8,7 @@ var pData = new Proxy(data,{
   	deleteProperty(target, prop) {
 		if (prop in target) {
 		  	delete target[prop];
-		  	console.log(`property removed: ${prop}`);
+		  	remove(prop);
 		}
       	}
 })
@@ -40,10 +40,27 @@ function update(i,val){
 	}
 }
 
-
+function remove(i){
+	let d = document;
+	let body = d.getElementsByTagName('body')[0];
+    let div = ( () => { 
+        for(let i in body.children) { 
+          	if(body.children[i].className == "top-content") return body.children[i]; 
+        }
+		return null;
+    }) ();
+	if(div) {
+        for (let c in div.children ){
+			if(div.children[c].className == "item-"+i) div.children[c].remove();
+		}
+	}
+}
 
 
 
 pData[0]="item a | ";
 pData[1]="item b | ";
 pData[2]="item c";
+
+
+
